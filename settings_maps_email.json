@@ -1,0 +1,27 @@
+{
+  "sub_keywords": [
+    "Freiburg"
+  ],
+  "contact_hints": [
+    "impressum",
+    "kontakt",
+    "contact",
+    "kontaktformular"
+  ],
+  "blocklist": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".svg",
+    ".js"
+  ],
+  "headless": false,
+  "max_scroll": 60,
+  "delay": 1.0,
+  "request_workers": 4,
+  "selenium_workers": 5,
+  "selenium_contact_limit": 4,
+  "selenium_wait_body": 3,
+  "selenium_wait_click": 1,
+  "selenium_sleep_per_page": 0.8
+}
