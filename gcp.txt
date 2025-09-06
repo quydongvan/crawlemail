@@ -4,9 +4,14 @@ gcloud config set project thermal-highway-470815-u4
 
 gcloud auth configure-docker europe-west3-docker.pkg.dev
 
-docker build -f Cloudrun.Dockerfile \
+docker build -f Dockerfile \
   -t europe-west3-docker.pkg.dev/thermal-highway-470815-u4/emailcrawler/crawlemail:latest \
   .
 
 docker push europe-west3-docker.pkg.dev/thermal-highway-470815-u4/emailcrawler/crawlemail:latest
 
+docker buildx build \  --platform linux/amd64 \                                                                 
+  -f Cloudrun.Dockerfile \
+  -t europe-west3-docker.pkg.dev/thermal-highway-470815-u4/emailcrawler/crawlemail:latest \
+  --push \
+  .

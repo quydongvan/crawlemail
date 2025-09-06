@@ -39,9 +39,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app
 
 # Mặc định Flask sẽ listen 0.0.0.0 với Gunicorn
-EXPOSE 8000
+EXPOSE 8080
 
 # LƯU Ý: app.py phải có biến Flask "app"
 # Ví dụ: app = Flask(__name__)
 # Nếu tên khác, đổi "app:app" bên dưới cho đúng (format <file>:<obj>)
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app", "--workers", "1", "--threads", "4", "--timeout", "180"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app", "--workers", "1", "--threads", "1", "--timeout", "180"]
