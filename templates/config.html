@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cấu hình Tool</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1200px; margin: 2em auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .config-container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+        .config-column { display: flex; flex-direction: column; }
+        label { font-weight: bold; color: #555; margin-bottom: 5px; }
+        textarea { width: 100%; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;}
+        input[type="number"] { width: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .setting-item { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .checkbox-item { justify-content: flex-start; gap: 10px; }
+        button { background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        button:hover { background-color: #0056b3; }
+        .message { padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 20px; }
+        .nav-links { margin-bottom: 20px; }
+        .nav-links a { text-decoration: none; color: #007bff; font-weight: 500;}
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="/">↩️ Quay lại trang chủ</a>
+    </div>
+    <h1>⚙️ Cấu hình Chi tiết</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="message">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/save-config" method="post">
+        <div class="config-container">
+            <div class="config-column">
+                <label for="contact_hints">Từ khóa 'liên hệ' (mỗi từ một dòng):</label>
+                <textarea id="contact_hints" name="contact_hints">{{ cfg.contact_hints | join('\n') }}</textarea>
+            </div>
+
+            <div class="config-column">
+                <label for="blocklist">Danh sách loại bỏ (mỗi chuỗi một dòng):</label>
+                <textarea id="blocklist" name="blocklist">{{ cfg.blocklist | join('\n') }}</textarea>
+            </div>
+
+            <div class="config-column">
+                <h3>Cấu hình Kỹ thuật</h3>
+                <div class="setting-item checkbox-item">
+                    <label for="headless">Chạy ẩn trình duyệt (headless)</label>
+                    <input type="checkbox" id="headless" name="headless" {% if cfg.headless %}checked{% endif %}>
+                </div>
+                <div class="setting-item">
+                    <label for="max_scroll">Số lần cuộn tối đa:</label>
+                    <input type="number" id="max_scroll" name="max_scroll" value="{{ cfg.max_scroll }}" min="1">
+                </div>
+                <div class="setting-item">
+                    <label for="delay">Độ trễ mỗi lần cuộn (s):</label>
+                    <input type="number" id="delay" name="delay" value="{{ cfg.delay }}" min="0.1" step="0.1">
+                </div>
+                <hr>
+                <div class="setting-item">
+                    <label for="request_workers">Luồng Requests tối đa:</label>
+                    <input type="number" id="request_workers" name="request_workers" value="{{ cfg.request_workers }}" min="1" max="10">
+                </div>
+                <div class="setting-item">
+                    <label for="selenium_workers">Luồng Selenium tối đa:</label>
+                    <input type="number" id="selenium_workers" name="selenium_workers" value="{{ cfg.selenium_workers }}" min="1" max="5">
+                </div>
+                <hr>
+                <div class="setting-item">
+                    <label for="selenium_contact_limit">Số link 'liên hệ' tối đa/site:</label>
+                    <input type="number" id="selenium_contact_limit" name="selenium_contact_limit" value="{{ cfg.selenium_contact_limit }}" min="1">
+                </div>
+                <div class="setting-item">
+                    <label for="selenium_wait_body">Chờ tải body (s):</label>
+                    <input type="number" id="selenium_wait_body" name="selenium_wait_body" value="{{ cfg.selenium_wait_body }}" min="1">
+                </div>
+                <div class="setting-item">
+                    <label for="selenium_wait_click">Chờ bấm nút (s):</label>
+                    <input type="number" id="selenium_wait_click" name="selenium_wait_click" value="{{ cfg.selenium_wait_click }}" min="1">
+                </div>
+                 <div class="setting-item">
+                    <label for="selenium_sleep_per_page">Chờ sau khi tải trang (s):</label>
+                    <input type="number" id="selenium_sleep_per_page" name="selenium_sleep_per_page" value="{{ cfg.selenium_sleep_per_page }}" min="0.1" step="0.1">
+                </div>
+            </div>
+        </div>
+        <button type="submit">💾 Lưu tất cả cấu hình</button>
+    </form>
+</body>
+</html>

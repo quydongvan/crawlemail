@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đang chạy tác vụ...</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 2em auto; padding: 20px; background-color: #f9f9f9; }
+        h1 { color: #333; }
+        #log-container {
+            width: 100%;
+            height: 500px;
+            background-color: #2b2b2b;
+            color: #a9b7c6;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+        .status { margin-top: 20px; font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1>📜 Nhật ký chạy Real-time</h1>
+    <p>Quá trình đang được thực thi trên máy chủ. Vui lòng không đóng trang này...</p>
+
+    <div id="log-container"></div>
+    <div id="status" class="status">Trạng thái: Đang khởi tạo...</div>
+
+    <script>
+        const logContainer = document.getElementById('log-container');
+        const statusDiv = document.getElementById('status');
+        
+        // Mở kết nối SSE đến máy chủ
+        const eventSource = new EventSource("/stream-logs");
+
+        // Lắng nghe các tin nhắn được gửi từ máy chủ
+        eventSource.onmessage = function(event) {
+            const data = event.data;
+
+            // Kiểm tra tín hiệu kết thúc đặc biệt
+            if (data === "---TASK_COMPLETE---") {
+                eventSource.close(); // Đóng kết nối
+                statusDiv.textContent = "Trạng thái: Hoàn tất! Đang chuyển hướng đến trang kết quả...";
+                statusDiv.style.color = "green";
+                // Tự động chuyển đến trang kết quả sau 2 giây
+                setTimeout(() => {
+                    window.location.href = "/results";
+                }, 2000);
+            } else {
+                // Thêm dòng log mới và tự động cuộn xuống
+                logContainer.innerHTML += data + '<br>';
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+        };
+
+        // Xử lý khi có lỗi kết nối
+        eventSource.onerror = function(err) {
+            statusDiv.textContent = "Trạng thái: Mất kết nối với máy chủ. Vui lòng thử lại.";
+            statusDiv.style.color = "red";
+            eventSource.close();
+        };
+    </script>
+</body>
+</html>

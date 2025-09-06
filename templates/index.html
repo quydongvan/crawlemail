@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tool Cào Email Google Maps</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 2em auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1, h2 { color: #333; }
+        form { margin-top: 2em; }
+        label { font-weight: bold; color: #555; }
+        input[type="text"], textarea { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+        .nav-links { margin-bottom: 20px; }
+        .nav-links a { text-decoration: none; color: #007bff; font-weight: 500;}
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="/config">⚙️ Tới trang cấu hình Email</a>
+    </div>
+    <h1>Tool Cào Email từ Google Maps</h1>
+    <form action="/harvest" method="post">
+        <h2>Bước 1: Tìm kiếm địa điểm</h2>
+        <p>Nhập từ khóa chính và các từ khóa phụ (mỗi từ một dòng) để tìm kiếm các địa điểm trên Google Maps.</p>
+        
+        <label for="main_kw">Từ khóa chính:</label><br>
+        <input type="text" id="main_kw" name="main_kw" required size="50" placeholder="vd: quán ăn, công ty phần mềm..."><br><br>
+
+        <label for="sub_kws">Từ khóa phụ (mỗi từ một dòng):</label><br>
+        <textarea id="sub_kws" name="sub_kws" rows="5" cols="50" placeholder="vd: Hà Đông
+Thanh Xuân
+Cầu Giấy"></textarea><br><br>
+
+        <button type="submit">🚀 Bắt đầu tìm kiếm địa điểm</button>
+    </form>
+</body>
+</html>

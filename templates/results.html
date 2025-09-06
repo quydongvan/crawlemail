@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả tìm kiếm</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1200px; margin: 2em auto; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; vertical-align: top; }
+        th { background-color: #f8f8f8; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .status { font-style: italic; color: #555; font-size: 0.9em; }
+        .email { font-weight: bold; color: #d9534f; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .actions { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;}
+        button, .button-link { background-color: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; text-decoration: none; display: inline-block;}
+        button:hover, .button-link:hover { opacity: 0.9; }
+        .export-button { background-color: #17a2b8; }
+        .back-link { display: inline-block; margin-top: 20px; font-weight: 500;}
+    </style>
+</head>
+<body>
+    <h1>Kết quả & Lấy Email</h1>
+    <p>Tìm thấy <b>{{ businesses | length }}</b> địa điểm. Tick chọn các địa điểm bạn muốn lấy email.</p>
+    
+    <form action="/get-emails" method="post">
+        <div class="actions">
+            <button type="submit">📥 Bắt đầu lấy email cho các mục đã chọn</button>
+            <a href="/export" class="button-link export-button">💾 Xuất ra Excel</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;"><input type="checkbox" onclick="toggle(this);" checked></th>
+                    <th>Từ khóa</th><th>Tên</th><th>Địa chỉ</th><th>Trang web</th><th>Email</th><th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for business in businesses %}
+                <tr>
+                    <td><input type="checkbox" name="selected_indices" value="{{ loop.index0 }}" checked></td>
+                    <td>{{ business['Từ khóa'] }}</td>
+                    <td>{{ business['Tên'] }}</td>
+                    <td>{{ business['Địa chỉ'] }}</td>
+                    <td><a href="{{ business['Trang web'] }}" target="_blank" rel="noopener noreferrer">{{ business['Trang web'] }}</a></td>
+                    <td class="email">{{ business['Email'] }}</td>
+                    <td class="status">{{ business['Trạng thái'] }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" style="text-align: center;">Không tìm thấy địa điểm nào.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+
+    <a href="/" class="back-link">↩️ Quay lại trang chủ để tìm kiếm lại</a>
+
+    <script>
+        function toggle(source) {
+            checkboxes = document.getElementsByName('selected_indices');
+            for(var i=0, n=checkboxes.length; i<n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
+</body>
+</html>
