@@ -13,13 +13,14 @@
     ".jpg",
     ".jpeg",
     ".svg",
-    ".js"
+    ".js",
+    ".@example"
   ],
   "headless": false,
   "max_scroll": 60,
-  "delay": 1.0,
+  "delay": 2.2,
   "request_workers": 4,
-  "selenium_workers": 5,
+  "selenium_workers": 4,
   "selenium_contact_limit": 4,
   "selenium_wait_body": 3,
   "selenium_wait_click": 1,
