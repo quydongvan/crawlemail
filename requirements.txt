@@ -1,0 +1,13 @@
+Flask==3.0.3
+Jinja2>=3.1.4
+itsdangerous>=2.2
+Werkzeug>=3.0
+
+selenium==4.23.1
+requests>=2.32
+beautifulsoup4>=4.12
+pandas>=2.2
+openpyxl>=3.1
+
+gunicorn==22.0
+gevent==24.2.1
